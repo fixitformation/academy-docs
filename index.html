@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Ressources Fixit Formation</title>
   <style>
     body {
@@ -17,11 +17,6 @@
       text-align: center;
       color: #0058a3;
     }
-    h2 {
-      margin-top: 2em;
-      border-bottom: 2px solid #ccc;
-      padding-bottom: 4px;
-    }
     .file-block {
       display: flex;
       align-items: center;
@@ -34,7 +29,6 @@
     }
     .file-name {
       font-weight: bold;
-      font-size: 1rem;
     }
     .download-btn {
       text-decoration: none;
@@ -53,26 +47,51 @@
 <body>
 
   <h1>📁 Ressources Fixit Formation</h1>
-  <p style="text-align:center;">Bienvenue ! Ici, tu peux télécharger les documents importants de ta formation.</p>
+  <p style="text-align:center;">Les documents ci-dessous sont générés automatiquement depuis le dossier <code>/documents</code>.</p>
 
-  <h2>📄 Documents</h2>
-
-  <div class="file-block">
-    <div class="file-name">Manifeste Fixit du Réparateur Moderne</div>
-    <a class="download-btn" href="documents/Manifeste_Fixit.pdf" download>Télécharger</a>
+  <div id="file-list">
+    <p>Chargement des documents en cours...</p>
   </div>
 
-  <div class="file-block">
-    <div class="file-name">Code de Conduite du Service Client</div>
-    <a class="download-btn" href="documents/Code_Conduite_Service_Client.pdf" download>Télécharger</a>
-  </div>
+  <script>
+    const repoOwner = 'fixitformation';
+    const repoName = 'academy-docs';
+    const folderPath = 'documents';
 
-  <h2>🎨 Boutons & Visuels</h2>
+    const apiUrl = `https://api.github.com/repos/${repoOwner}/${repoName}/contents/${folderPath}`;
 
-  <div class="file-block">
-    <div class="file-name">Bouton "Télécharger" (style Apple, PNG)</div>
-    <a class="download-btn" href="boutons/telecharger.png" download>Télécharger</a>
-  </div>
+    fetch(apiUrl)
+      .then(response => response.json())
+      .then(data => {
+        const listContainer = document.getElementById('file-list');
+        listContainer.innerHTML = ''; // Clear loading message
+
+        data.forEach(file => {
+          if (file.type === 'file' && file.name.endsWith('.pdf')) {
+            const fileBlock = document.createElement('div');
+            fileBlock.className = 'file-block';
+
+            const fileName = document.createElement('div');
+            fileName.className = 'file-name';
+            fileName.textContent = file.name.replace(/_/g, ' ').replace(/.pdf$/, '');
+
+            const downloadBtn = document.createElement('a');
+            downloadBtn.className = 'download-btn';
+            downloadBtn.href = file.download_url;
+            downloadBtn.textContent = 'Télécharger';
+            downloadBtn.setAttribute('download', file.name);
+
+            fileBlock.appendChild(fileName);
+            fileBlock.appendChild(downloadBtn);
+            listContainer.appendChild(fileBlock);
+          }
+        });
+      })
+      .catch(error => {
+        document.getElementById('file-list').innerHTML = "<p>Impossible de charger les fichiers. Vérifie le nom du dossier ou l'accès à l'API GitHub.</p>";
+        console.error('Erreur de chargement GitHub API:', error);
+      });
+  </script>
 
 </body>
 </html>
