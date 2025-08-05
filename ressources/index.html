@@ -52,6 +52,14 @@
     .download-btn:hover {
       background-color: #003e72;
     }
+    #loader {
+      text-align: center;
+      margin: 30px auto;
+    }
+    #loader img {
+      width: 60px;
+      opacity: 0.6;
+    }
   </style>
 </head>
 <body>
@@ -59,9 +67,11 @@
   <h1>📁 RESSOURCES FIXIT</h1>
   <p class="intro">Tous les documents téléchargeables de ta formation sont listés ici automatiquement. Tu peux revenir sur cette page à tout moment.</p>
 
-  <div id="file-list">
-    <p>Chargement des documents...</p>
+  <div id="loader">
+    <img src="https://fixitformation.github.io/academy-docs/logo-loader.gif" alt="Chargement...">
   </div>
+
+  <div id="file-list" style="display:none;"></div>
 
   <script>
     const repoOwner = 'fixitformation';
@@ -74,6 +84,9 @@
       .then(response => response.json())
       .then(data => {
         const listContainer = document.getElementById('file-list');
+        const loader = document.getElementById('loader');
+        loader.style.display = 'none';
+        listContainer.style.display = 'block';
         listContainer.innerHTML = '';
 
         data.forEach(file => {
@@ -98,7 +111,7 @@
         });
       })
       .catch(error => {
-        document.getElementById('file-list').innerHTML = "<p>Erreur de chargement. Vérifie que le dossier 'ressources' existe bien sur le dépôt GitHub.</p>";
+        document.getElementById('loader').innerHTML = "<p>Erreur de chargement. Vérifie que le dossier 'ressources' existe bien sur le dépôt GitHub.</p>";
         console.error('Erreur API GitHub:', error);
       });
   </script>
