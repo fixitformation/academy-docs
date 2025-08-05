@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>RESSOURCES</title>
+  <title>RESSOURCES FIXIT</title>
   <style>
     body {
       font-family: 'Segoe UI', sans-serif;
@@ -56,7 +56,7 @@
 </head>
 <body>
 
-  <h1>RESSOURCES</h1>
+  <h1>📁 RESSOURCES FIXIT</h1>
   <p class="intro">Tous les documents téléchargeables de ta formation sont listés ici automatiquement. Tu peux revenir sur cette page à tout moment.</p>
 
   <div id="file-list">
@@ -66,7 +66,7 @@
   <script>
     const repoOwner = 'fixitformation';
     const repoName = 'academy-docs';
-    const folderPath = 'RESSOURCES'; // URL encodé pour espace
+    const folderPath = 'ressources'; // nom de dossier mis à jour
 
     const apiUrl = `https://api.github.com/repos/${repoOwner}/${repoName}/contents/${folderPath}`;
 
@@ -98,7 +98,7 @@
         });
       })
       .catch(error => {
-        document.getElementById('file-list').innerHTML = "<p>Erreur de chargement. Vérifie que le dossier 'RESSOURCES' existe bien sur le dépôt GitHub.</p>";
+        document.getElementById('file-list').innerHTML = "<p>Erreur de chargement. Vérifie que le dossier 'ressources' existe bien sur le dépôt GitHub.</p>";
         console.error('Erreur API GitHub:', error);
       });
   </script>
