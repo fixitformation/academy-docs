@@ -76,7 +76,8 @@
   <script>
     const repoOwner = 'fixitformation';
     const repoName = 'academy-docs';
-    const folderPath = 'ressources'; // nom de dossier mis à jour
+    const folderPath = 'ressources';
+    const hiddenKeyword = '-PRIVÉ-';
 
     const apiUrl = `https://api.github.com/repos/${repoOwner}/${repoName}/contents/${folderPath}`;
 
@@ -90,7 +91,7 @@
         listContainer.innerHTML = '';
 
         data.forEach(file => {
-          if (file.type === 'file') {
+          if (file.type === 'file' && !file.name.includes(hiddenKeyword)) {
             const fileBlock = document.createElement('div');
             fileBlock.className = 'file-block';
 
